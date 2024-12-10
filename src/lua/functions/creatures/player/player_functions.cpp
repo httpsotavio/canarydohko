@@ -403,6 +403,8 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "removeIconBakragore", PlayerFunctions::luaPlayerRemoveIconBakragore);
 	Lua::registerMethod(L, "Player", "sendCreatureAppear", PlayerFunctions::luaPlayerSendCreatureAppear);
 
+	Lua::registerMethod(L, "Player", "castSpell", PlayerFunctions::luaPlayerCastSpell);
+
 	GroupFunctions::init(L);
 	GuildFunctions::init(L);
 	MountFunctions::init(L);
@@ -4846,6 +4848,30 @@ int PlayerFunctions::luaPlayerSendCreatureAppear(lua_State* L) {
 
 	bool isLogin = Lua::getBoolean(L, 2, false);
 	player->sendCreatureAppear(player, player->getPosition(), isLogin);
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerCastSpell(lua_State* L) {
+	// player:castSpell(instantName, var)
+	const auto &player = Lua::getUserdataShared<Player>(L, 1);
+	if (!player) {
+		Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	const std::string &spellName = Lua::getString(L, 2);
+	const auto &spell = g_spells().getInstantSpellByName(spellName);
+	if (!spell) {
+		Lua::reportErrorFunc("Spell \"" + spellName + "\" not found");
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	auto var = Lua::getString(L, 3, "");
+
+	spell->playerCastInstant(player, var);
 	Lua::pushBoolean(L, true);
 	return 1;
 }

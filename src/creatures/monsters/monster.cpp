@@ -56,6 +56,35 @@ Monster::Monster(const std::shared_ptr<MonsterType> &mType) :
 			                scriptName);
 		}
 	}
+
+	// TODO: make this more clean, in lua side
+	// Archer
+	registerCreatureEvent("ArcherFirstPassive");
+	registerCreatureEvent("ArcherSecondPassive");
+
+	// Assassin
+	registerCreatureEvent("AssassinSecondPassive");
+
+	// Bard
+	registerCreatureEvent("BardSecondPassive");
+	
+	// Druid
+	registerCreatureEvent("DruidSecondPassive");
+
+	// Monk
+	registerCreatureEvent("MonkFirstPassive");
+	registerCreatureEvent("MonkSecondPassive");
+
+	// Samurai
+	registerCreatureEvent("SamuraiFirstPassive");
+	registerCreatureEvent("SamuraiSecondPassive");
+
+	// Warrior
+	registerCreatureEvent("WarriorFirstPassive");
+	registerCreatureEvent("WarriorSecondPassive");
+
+	// Wizard
+	registerCreatureEvent("WizardSecondPassive");
 }
 
 std::shared_ptr<Monster> Monster::getMonster() {

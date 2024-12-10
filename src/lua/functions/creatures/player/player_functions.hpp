@@ -382,6 +382,7 @@ class PlayerFunctions {
 	static int luaPlayerRemoveIconBakragore(lua_State* L);
 
 	static int luaPlayerSendCreatureAppear(lua_State* L);
+	static int luaPlayerCastSpell(lua_State* L);
 
 	friend class CreatureFunctions;
 };
